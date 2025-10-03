@@ -8,11 +8,23 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json()); // To accept JSON data in the body
 
 app.get('/', (req, res) => {
   res.send('API is running...');
+});
+
+// Health check endpoint for Render
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'Server is healthy' });
 });
 
 // Routes
@@ -26,4 +38,6 @@ const adminRoutes = require('./routes/adminRoutes');
 app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+});

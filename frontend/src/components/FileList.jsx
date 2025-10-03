@@ -34,8 +34,9 @@ const FileList = ({ files, onDeleteSuccess, showUserInfo = false }) => {
   const handleView = (file) => {
     try {
       const token = localStorage.getItem('token');
-      // Use the same base URL as your API (backend runs on port 5001)
-      const viewUrl = `http://localhost:5001/api/files/view/${file._id}?token=${token}`;
+      // Use environment variable for API URL
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+      const viewUrl = `${apiUrl}/api/files/view/${file._id}?token=${token}`;
       window.open(viewUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
       console.error('View error:', error);
@@ -46,10 +47,11 @@ const FileList = ({ files, onDeleteSuccess, showUserInfo = false }) => {
   const handleDownload = async (file) => {
     try {
       const token = localStorage.getItem('token');
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
       
       // Use backend proxy endpoint to download with correct filename
       const response = await axios.get(
-        `http://localhost:5001/api/files/download/${file._id}`,
+        `${apiUrl}/api/files/download/${file._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
