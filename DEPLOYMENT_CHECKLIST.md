@@ -1,44 +1,45 @@
-# Quick Deployment Checklist
+# Quick Deployment Checklist - Vercel Only
 
 ## Before Deployment
 
 - [ ] Create MongoDB Atlas account and database
 - [ ] Create Cloudinary account
 - [ ] Push code to GitHub repository
-- [ ] Create Render account
 - [ ] Create Vercel account
 
-## Backend Deployment (Render)
+## Backend Deployment (Vercel)
 
-- [ ] Create new Web Service on Render
+- [ ] Go to Vercel Dashboard
+- [ ] Create new Project
 - [ ] Connect GitHub repository
 - [ ] Set root directory to `backend`
 - [ ] Add all environment variables:
-  - [ ] NODE_ENV
-  - [ ] PORT
+  - [ ] NODE_ENV=production
   - [ ] MONGO_URI
   - [ ] JWT_SECRET
   - [ ] CLOUDINARY_CLOUD_NAME
   - [ ] CLOUDINARY_API_KEY
   - [ ] CLOUDINARY_API_SECRET
-  - [ ] CORS_ORIGIN (update after frontend deployment)
+  - [ ] CORS_ORIGIN (leave empty, update later)
 - [ ] Deploy and wait for completion
-- [ ] Copy backend URL
+- [ ] Copy backend URL (e.g., https://mini-drive-backend.vercel.app)
 
 ## Frontend Deployment (Vercel)
 
-- [ ] Create new Project on Vercel
-- [ ] Connect GitHub repository
+- [ ] Go to Vercel Dashboard again
+- [ ] Create new Project
+- [ ] Connect same GitHub repository
 - [ ] Set root directory to `frontend`
 - [ ] Add environment variable:
-  - [ ] VITE_API_URL (your Render backend URL)
+  - [ ] VITE_API_URL (your Vercel backend URL)
 - [ ] Deploy and wait for completion
-- [ ] Copy frontend URL
+- [ ] Copy frontend URL (e.g., https://mini-drive.vercel.app)
 
 ## Final Configuration
 
-- [ ] Update CORS_ORIGIN in Render with Vercel URL
-- [ ] Wait for Render to redeploy
+- [ ] Go back to backend project in Vercel
+- [ ] Update CORS_ORIGIN environment variable with frontend URL
+- [ ] Redeploy backend (Deployments → ... → Redeploy)
 - [ ] Test the application:
   - [ ] Sign up
   - [ ] Login
@@ -57,22 +58,31 @@
 
 ## Environment Variables Quick Reference
 
-### Backend (Render)
+### Backend (Vercel Project 1)
 ```
 NODE_ENV=production
-PORT=5001
 MONGO_URI=mongodb+srv://...
 JWT_SECRET=your_random_string
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
-CORS_ORIGIN=https://your-app.vercel.app
+CORS_ORIGIN=https://your-frontend.vercel.app
 ```
 
-### Frontend (Vercel)
+### Frontend (Vercel Project 2)
 ```
-VITE_API_URL=https://your-backend.onrender.com
+VITE_API_URL=https://your-backend.vercel.app
 ```
+
+---
+
+## Advantages of Vercel for Both
+
+✅ **One Platform**: Manage both frontend and backend in one place
+✅ **No Cold Starts**: Backend stays warm, no 30-60s delays
+✅ **Faster Deployment**: 5 minutes total vs 15+ minutes
+✅ **Auto-Scaling**: Handles traffic spikes automatically
+✅ **Global CDN**: Better performance worldwide
 
 ---
 
